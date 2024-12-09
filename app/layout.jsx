@@ -12,7 +12,9 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </head>
       <body>
-        <header></header>
+        <header>
+          
+        </header>
         {children}
         <footer className="absolute bottom-2 right-2">Copyright 2024 Mack Sawyer</footer>
       </body>

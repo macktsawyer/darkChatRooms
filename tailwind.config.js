@@ -7,8 +7,8 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   safelist: [
-    'DEFAULT', 'text-slate', 'text-lightslate', 'text-stone', 'text-red', 'text-orange', 'text-amber', 'text-yellow', 'text-lime', 'text-green', 'text-emerald', 'text-teal', 'text-cyan', 'text-sky', 'text-blue', 'text-indigo', 'text-violet', 'text-purple', 'text-fuchsia', 
-    'text-pink', 'text-rose', 'bg-slate', 'bg-lightslate', 'bg-stone', 'bg-red', 'bg-orange', 'bg-amber', 'bg-yellow', 'bg-lime', 'bg-green', 'bg-emerald', 'bg-teal', 'bg-cyan', 'bg-sky', 'bg-blue', 'bg-indigo', 'bg-violet', 'bg-purple', 'bg-fuchsia', 
+    'DEFAULT', 'text-white', 'text-slate', 'text-lightslate', 'text-stone', 'text-red', 'text-orange', 'text-amber', 'text-yellow', 'text-lime', 'text-green', 'text-emerald', 'text-teal', 'text-cyan', 'text-sky', 'text-blue', 'text-indigo', 'text-violet', 'text-purple', 'text-fuchsia', 
+    'text-pink', 'text-rose', 'bg-black', 'bg-slate', 'bg-lightslate', 'bg-stone', 'bg-red', 'bg-orange', 'bg-amber', 'bg-yellow', 'bg-lime', 'bg-green', 'bg-emerald', 'bg-teal', 'bg-cyan', 'bg-sky', 'bg-blue', 'bg-indigo', 'bg-violet', 'bg-purple', 'bg-fuchsia', 
     'bg-pink', 'bg-rose'
   ],
   theme: {
