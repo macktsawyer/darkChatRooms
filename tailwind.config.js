@@ -39,7 +39,15 @@ module.exports = {
       'pink': '#db2777',
       'rose': '#e11d48',
     },
-    extend: {},
+    extend: {
+      dropShadow: {
+        '3xl': '0 35px 35px rgba(0, 0, 0, 0.45)',
+        '4xl': [
+            '0 35px 35px rgba(0, 0, 0, 0.45)',
+            '0 45px 65px rgba(0, 0, 0, 0.35)'
+        ]
+      }
+    },
     screens: {
       sm: "640px", // Small devices (e.g., phones)
       md: "768px", // Medium devices (e.g., tablets)

@@ -1,4 +1,5 @@
 import './global.css';
+import NavBar from './components/NavBar.tsx'
 
 export const metadata = {
   title: 'Next.js',
@@ -7,17 +8,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      </head>
-      <body>
-        <header>
-          
-        </header>
-        {children}
-        <footer className="absolute bottom-2 right-2">Copyright 2024 Mack Sawyer</footer>
-      </body>
-    </html>
+	<html lang="en">
+	  <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	  </head>
+	  <body>
+		<header>
+			<NavBar />
+		</header>
+		{children}
+		<footer className="absolute bottom-2 right-2">Copyright 2024 Mack Sawyer</footer>
+	  </body>
+	</html>
   )
 }
