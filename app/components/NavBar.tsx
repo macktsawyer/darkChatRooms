@@ -4,7 +4,8 @@ import {useState} from 'react';
 import Link from 'next/link';
 
 export default function NavBar () {
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
+    const [loggedIn, setIsLoggedIn] = useState(false);
 
     const handleNavBar = () => {
         setVisible(!visible)
@@ -55,10 +56,18 @@ export default function NavBar () {
                 </div>
             </div>
             <ul className={"navList " + (visible ? "absolute top-16 w-64 h-64 p-4 text-clip text-center rounded-br-lg bg-black drop-shadow-4xl transition-visibility border-2 border-black" : "hidden")}>
-                <Link onClick={handleClick} href="/login"><li key="login" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Login</li></Link>
-                <Link onClick={handleClick} href="/register"><li key="register" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Register</li></Link>
                 <li key="channels" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Channel List</li>
                 <li key="profile manager" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Profile Management</li>
+                { loggedIn ? 
+                ('Logout') 
+                :
+                (
+                    <>
+                        <Link onClick={handleClick} href="/login"><li key="login" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Login</li></Link>
+                        <Link onClick={handleClick} href="/register"><li key="register" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Register</li></Link>
+                    </>
+                )
+                }
             </ul>
         </div>
     );

@@ -1448,9 +1448,6 @@ html {
 .flex-grow {
   flex-grow: 1;
 }
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1751,52 +1748,77 @@ body {
     color: white;
 }
 
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border-bottom: 2px solid #4f46e5;
+  -webkit-text-fill-color: white;
+  box-shadow: 0 0 0px 1000px #000000 inset;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+  color: white;
+  border-radius: 5px;
+}
+.autofill\:border-b-indigo:-webkit-autofill {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(79 70 229 / var(--tw-border-opacity, 1));
+}
+.autofill\:border-b-indigo:autofill {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(79 70 229 / var(--tw-border-opacity, 1));
+}
+.autofill\:bg-black:-webkit-autofill {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+.autofill\:bg-black:autofill {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
 .hover\:rounded-md:hover {
   border-radius: 0.375rem;
 }
-
 .hover\:bg-green:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:bg-slate:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:bg-violet:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(124 58 237 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:placeholder-white:hover::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(255 255 255 / var(--tw-placeholder-opacity, 1));
 }
-
 .hover\:placeholder-white:hover::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(255 255 255 / var(--tw-placeholder-opacity, 1));
 }
-
 .focus\:placeholder-black:focus::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(0 0 0 / var(--tw-placeholder-opacity, 1));
 }
-
 .focus\:placeholder-black:focus::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(0 0 0 / var(--tw-placeholder-opacity, 1));
 }
-
 @media (min-width: 640px) {
 
   .sm\:block {
     display: block;
   }
 }
-
 @media (min-width: 768px) {
 
   .md\:mb-12 {
@@ -1807,7 +1829,6 @@ body {
     min-width: 14rem;
   }
 }
-
 @media (min-width: 1024px) {
 
   .lg\:ml-0 {

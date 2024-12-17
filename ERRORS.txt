@@ -1,0 +1,11 @@
+ErrCode 1001: Most likely a programming issue pertaining to mismanaged state in the registration process. Please source the code and find the specified Error Code for more information. This is a sensitive data field related error.
+
+ErrCode 1002: This is likely due to a request error when attempting to register. Please source the code and find the specified Error Code for more information. This is a sensitive data field related error.
+
+ErrCode 1003: This is happening during the backend create user functionality. This is related to a MongoDB call. Please source the code and find the specified Error Code for more information. This is a sensitive data field related error.
+
+ErrCode 1004: The email was found to already be in user by another account. Functionality checks the email against the DB. If a UUID is found, it is returned. If content is returned in the response, this error is thrown.
+
+ErrCode 1005: Error with the login response from MongoDB. This is a sensitive data field related error.
+
+ErrCode 1006: Error when attempting to connect to MongoDB for the login.
