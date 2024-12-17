@@ -58,9 +58,10 @@ export default function Home() {
 
   const submitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // No
-    // console.log(message)
+    let prevColor = message.messageInfo.messageColor; // Grab the current (past) color to preserve for good UX
     socket.emit("message", message); // Emit the message to all users
     setMessage(defaultMessage()); // Reset the client's message state
+    updateMessageColor(prevColor);
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" }); //Scroll to the new bottom of chat
     inputRef.current.focus(); // Keep the chat input focused on. Maximum spam for the users (currently)
   }
@@ -164,7 +165,7 @@ export default function Home() {
                     classNames({[`bg-${m.messageInfo.messageColor} text-${defaultTextColor} rounded-lg m-2 p-4`]: m.messageInfo.messageColor, [`bg-white text-${defaultTextColor} rounded-lg m-2 p-4`]:!m.messageInfo.messageColor})}>
                   {!m.messageInfo.isDeleted && 
                     <div className="text-balance">
-                      {m.userInfo.name}&nbsp;({compareDateAndMakeReadable(m.timestamp)}) -  
+                      <span></span> 
                       <span
                         style={{
                           wordWrap: 'break-word', 
@@ -172,8 +173,9 @@ export default function Home() {
                           display: 'inline-block', 
                         }}
                       >
-                      &nbsp;{m.messageInfo.messageText}
+                      {m.userInfo.name}&nbsp;- &nbsp;{m.messageInfo.messageText}
                       </span>
+                      <div style={{fontSize:"10px"}}>({compareDateAndMakeReadable(m.timestamp)})</div>
                     </div>
                   }
                 </li>
