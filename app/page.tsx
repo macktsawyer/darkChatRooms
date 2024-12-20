@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef, FormEvent } from "react";
+import { authOptions } from './api/auth/[...nextauth]/route';
+import { useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
 import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 import { socket } from "./socket";
@@ -33,9 +36,15 @@ export default function Home() {
   const [chatMessages, setChatMessages] = useState([]);
   const lastMessageRef = useRef(null);
   const inputRef = useRef(null);
+  const { data: session, status } = useSession();
 
-  // Where is meesage info? Nested down there
+  if (!session) redirect('/login');
+
+  // Where is message info? Nested down there
   const updateMessageText = (msg: string) => {
+
+    
+
     setMessage((prevState) => ({ 
       ...prevState,
       messageInfo: {

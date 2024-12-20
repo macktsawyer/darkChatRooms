@@ -2,6 +2,8 @@
 
 import {ChangeEvent, useState, FormEvent, useRef} from 'react';
 import { registration } from '../types/registration';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Register () {
     const [loading, setLoading] = useState(false);
@@ -16,6 +18,7 @@ export default function Register () {
         password: registration.password,
         confirmPassword: registration.confirmPassword
     });
+    const router = useRouter();
 
     // Gracefully (lol) handle any failures.
     const handleFailure = (msg: string) => {
@@ -81,6 +84,7 @@ export default function Register () {
             })
             if (res.ok) {
                 setRegistrationInfo(registration);
+                router.push('/login');
             }
         } catch (error) {
             setPasswordCheck(false);
@@ -153,12 +157,13 @@ export default function Register () {
 
     return (
         <div className="w-full h-auto">
+            <label className="absolute opacity-20 top-[200px] left-[50%] lg:left-[620px] lg:top-[280px] text-5xl text-indigo">Register</label>
             <form onSubmit={(e) => submitHandler(e)} className="flex flex-col lg:mt-[20%] lg:ml-[40%] mt-[70%]">
                 <div className="flex flex-row p-2">
                     <input 
                         placeholder="Username"
                         id="username"
-                        className="flex bg-black border-2 border-b-indigo border-black lg:w-[400px] w-[375px] placeholder: text-center focus:placeholder-black outline-none autofill:border-b-indigo autofill:bg-black autofill:bg-black autofill-active:bg-black autofill-blur:bg-black" 
+                        className="flex bg-black border-2 border-b-indigo border-black w-[400px] placeholder-indigo placeholder: text-center hover:rounded-md hover:placeholder-teal focus:placeholder-black outline-none" 
                         onChange={(e) => {handleInputChange(e.target.value, "username")}}
                         value={registrationInfo.username}
                         type="text" 
@@ -167,7 +172,7 @@ export default function Register () {
                 <div className="flex flex-row p-2">
                     <input 
                         placeholder="Email Address" 
-                        className="flex bg-black border-2 border-b-indigo border-black lg:w-[400px] w-[375px] placeholder: text-center focus:placeholder-black outline-none autofill:border-b-indigo autofill:bg-black autofill:bg-black autofill-active:bg-black autofill-blur:bg-black" 
+                        className="flex bg-black border-2 border-b-indigo border-black w-[400px] placeholder-indigo placeholder: text-center hover:rounded-md hover:placeholder-teal focus:placeholder-black outline-none" 
                         onChange={(e) => {handleInputChange(e.target.value, "email")}}
                         value={registrationInfo.email}
                         type="email" 
@@ -176,7 +181,7 @@ export default function Register () {
                 <div className="flex flex-row p-2">
                     <input 
                         placeholder="Password" 
-                        className="flex bg-black border-2 border-b-indigo border-black lg:w-[400px] w-[375px] placeholder: text-center focus:placeholder-black outline-none" 
+                        className="flex bg-black border-2 border-b-indigo border-black w-[400px] placeholder-indigo placeholder: text-center hover:rounded-md hover:placeholder-teal focus:placeholder-black outline-none" 
                         onChange={(e) => {handleInputChange(e.target.value, "password")}}
                         value={registrationInfo.password}
                         type="password" 
@@ -185,7 +190,7 @@ export default function Register () {
                 <div className="flex flex-row p-2">
                     <input 
                         placeholder="Repeat Password" 
-                        className="flex bg-black border-2 border-b-indigo border-black lg:w-[400px] w-[375px] placeholder: text-center focus:placeholder-black outline-none" 
+                        className="flex bg-black border-2 border-b-indigo border-black w-[400px] placeholder-indigo placeholder: text-center hover:rounded-md hover:placeholder-teal focus:placeholder-black outline-none" 
                         onChange={(e) => {handleInputChange(e.target.value, "confirmPassword")}}
                         value={registrationInfo.confirmPassword}
                         type="password" 
@@ -193,11 +198,12 @@ export default function Register () {
                 </div>
                 <div className="flex flex-col lg:flex-row p-2">
                     <button 
-                        className={"border-indigo w-20 rounded-md border-2 hover:bg-green lg:ml-0 ml-[40%] " 
+                        className={"border-indigo text-indigo w-20 rounded-md border-2 hover:bg-indigo hover:text-teal lg:ml-0 ml-[40%] " 
                         + (isFailure ? "bg-red" : "") + (loading ? "cursor-progress" : "cursor-pointer")}
                         type="submit">Submit</button>
                     <p className="text-red ml-2 mt-4 lg:mt-0 opacity-80">{message}</p>
                 </div>
+                <p className="lg:ml-[190px] ml-[20px] mt-[60px] opacity-60 text-indigo">Do you already have an account? <Link href="/login" className="text-teal hover:text-indigo">Login!</Link></p>
             </form>
         </div>
     )

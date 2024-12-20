@@ -8,7 +8,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         await connectToDatabase();
         const body = await req.json();
 
-        const { username, password } : { username: string; password: string; } = body.loginAttempt;
+        const { username, password } : { username: string; password: string; } = body;
 
         const query = User.where({username: username})
 
@@ -34,4 +34,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             status: 500
         })
     }
+}
+
+export async function GET(req: NextRequest, res: NextResponse) {
+    console.log('No GET function')
 }

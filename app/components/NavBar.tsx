@@ -1,11 +1,15 @@
 'use client';
 
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
+
 
 export default function NavBar () {
     const [visible, setVisible] = useState(false);
     const [loggedIn, setIsLoggedIn] = useState(false);
+    const {data:session} = useSession();
 
     const handleNavBar = () => {
         setVisible(!visible)
@@ -14,6 +18,19 @@ export default function NavBar () {
     const handleClick = () => {
         setVisible(false);
     }
+
+    const handleSignOut = (e) => {
+        e.preventDefault();
+        signOut();
+        redirect('/login');
+    }
+
+    useEffect(() => {
+        if (session && session.user.id) {
+            setIsLoggedIn(true);
+            console.log('Logged in Navbar')
+        }
+    },[session])
 
     return (
         <div>
@@ -57,9 +74,14 @@ export default function NavBar () {
             </div>
             <ul className={"navList " + (visible ? "absolute top-16 w-64 h-64 p-4 text-clip text-center rounded-br-lg bg-black drop-shadow-4xl transition-visibility border-2 border-black" : "hidden")}>
                 <li key="channels" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Channel List</li>
-                <li key="profile manager" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Profile Management</li>
+                
                 { loggedIn ? 
-                ('Logout') 
+                (
+                    <>
+                        <Link href="/profileManagement" key="profile manager" className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"}>Profile Management</Link>
+                        <button className={"navItem mt-2 ml-4 mr-4 btn btn-ghost text-center"} onClick={(e) => handleSignOut(e)}>Sign Out</button>
+                    </>
+                ) 
                 :
                 (
                     <>

@@ -9,3 +9,5 @@ ErrCode 1004: The email was found to already be in user by another account. Func
 ErrCode 1005: Error with the login response from MongoDB. This is a sensitive data field related error.
 
 ErrCode 1006: Error when attempting to connect to MongoDB for the login.
+
+ErrCode 1007: There was an issue when passing credentials through NextAuth. This is a sensitive data field related error.
