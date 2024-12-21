@@ -19,16 +19,15 @@ export default function NavBar () {
         setVisible(false);
     }
 
-    const handleSignOut = (e) => {
+    const handleSignOut = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         signOut();
-        redirect('/login');
+        redirect('/'); // Not sure what is happening yet, but I believe there is conflict between this and signOut 
     }
 
     useEffect(() => {
         if (session && session.user.id) {
             setIsLoggedIn(true);
-            console.log('Logged in Navbar')
         }
     },[session])
 

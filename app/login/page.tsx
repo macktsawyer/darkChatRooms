@@ -18,7 +18,9 @@ export default function Login () {
     const {data:session} = useSession();
     const router = useRouter();
 
-    if (session?.user?.name) redirect('/');
+    if (session?.user?.name) {
+        redirect('/');
+    }
 
        // Reset any known failures
     const clearFailure = () => {
@@ -58,14 +60,18 @@ export default function Login () {
                     password:loginAttempt.password,
                     redirect:false,
                 }
-            )
+            );
 
             if (authAttempt.error) {
                 console.log(authAttempt)
                 handleFailure('ErrCode 1007: Unable to establish user authentication.');
                 return
-            }
-            router.push('/profileManagement');
+            };
+
+            if (authAttempt.ok) {
+                redirect('/');
+            };
+            
         } catch (error) {
             handleFailure('ErrCode 1007: Unable to establish user authentication. ' + error);
         }

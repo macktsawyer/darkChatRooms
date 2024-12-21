@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
+import DOMPurify from 'dompurify';
 import { socket } from "./socket";
 
 export default function Home() {
@@ -40,11 +41,18 @@ export default function Home() {
 
   if (!session) redirect('/login');
 
+  const filterChatMessages = (msg: string) => {
+
+    const sanitizedMessage = msg.length ? DOMPurify.sanitize(msg) : null;
+
+    if (sanitizedMessage) {
+      console.log(sanitizedMessage)
+    }
+    return sanitizedMessage
+  }
+
   // Where is message info? Nested down there
   const updateMessageText = (msg: string) => {
-
-    
-
     setMessage((prevState) => ({ 
       ...prevState,
       messageInfo: {
@@ -67,8 +75,25 @@ export default function Home() {
 
   const submitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // No
+
+    const sanitizedMessageText = filterChatMessages(message.messageInfo.messageText);
+  
+    if (!sanitizedMessageText) {
+      alert("Your message couldn't be sent due to a detection of malicious code in the message content.");
+      updateMessageText('');
+      return 
+    }
+
+    const messageToSend = {
+      ...message,
+      messageInfo: {
+        ...message.messageInfo,
+        messageText: sanitizedMessageText, // Sanitize here
+      },
+    };
+
     let prevColor = message.messageInfo.messageColor; // Grab the current (past) color to preserve for good UX
-    socket.emit("message", message); // Emit the message to all users
+    socket.emit("message", messageToSend); // Emit the message to all users
     setMessage(defaultMessage()); // Reset the client's message state
     updateMessageColor(prevColor);
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" }); //Scroll to the new bottom of chat
@@ -141,12 +166,14 @@ export default function Home() {
     socket.on("disconnect", onDisconnect);
 
     socket.on("message", (msg) => {
+      console.log('Message received: ' + msg);
       setChatMessages((prevChatMessages) => [...prevChatMessages, msg]);
     })
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
+      socket.off("message");
     };
   }, []);
 

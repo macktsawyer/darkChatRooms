@@ -68,7 +68,8 @@ export const authOptions: AuthOptions = {
   expiresIn:'1h',
   debug: true,
   pages: {
-    signIn: "/login", // Corrected from 'loginIn'
+    signIn: "/profileManagement", 
+    signOut: "/"
   },
   callbacks: {
     async jwt({ token, user }: { token: CustomJWT; user?: CustomUser }) {
