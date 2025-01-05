@@ -1,2 +1,5 @@
 node_modules
 .env
+declarations.d.ts
+next-auth.d.ts
+next-env.d.ts

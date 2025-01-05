@@ -68,7 +68,7 @@ export const authOptions: AuthOptions = {
   expiresIn:'1h',
   debug: true,
   pages: {
-    signIn: "/profileManagement", 
+    signIn: "/", 
     signOut: "/"
   },
   callbacks: {

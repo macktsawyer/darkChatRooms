@@ -73,6 +73,28 @@ export default function Home() {
     }));
   };
 
+  // I should make a better dynamic update function here too but i...
+  const updateUserName = (usr: string) => {
+    setMessage((prevState) => ({
+      ...prevState,
+      userInfo: {
+        ...prevState.userInfo,
+        name: usr, 
+      },
+    }));
+  };
+
+  // just haven't yet
+  const updateUserID = (id: string) => {
+    setMessage((prevState) => ({
+      ...prevState,
+      userInfo: {
+        ...prevState.userInfo,
+        userid: id, 
+      },
+    }));
+  };
+
   const submitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // No
 
@@ -185,6 +207,12 @@ export default function Home() {
     }
   },[chatMessages])
 
+  useEffect(()=> {
+    updateUserName(session.user.name);
+    updateUserID(session.user.id);
+    updateMessageColor(session.user.defaultMessageColor);
+  },[session.user])
+
 // I had to make the non-messageColor default bg-white because classNames didn't like that they ended up with same value (for bg-black)
 // Overall form container. I would like to put this in it's own component at some point.
 // Color select. If I get the full form container put in it's own component, I'd like this to be it's own component and optimized.
@@ -228,8 +256,8 @@ export default function Home() {
           >
 
             <select 
-            defaultValue={message?.messageInfo?.messageColor || "slate"}
             onChange={(e) => {updateMessageColor(e.target.value)}} 
+            value={message.messageInfo.messageColor || 'slate'}
             className={
               classNames({[`select w-1/12 h-10 rounded-xl mr-2 bg-${message.messageInfo.messageColor} text-white`]: message.messageInfo.messageColor, 'select w-1/12 h-10 rounded-xl mr-2 bg-white text-white':!message.messageInfo.messageColor,})}>
               <option value="black" style={{backgroundColor: "#000000", color: "white"}}>Text bubble background color</option>
@@ -265,7 +293,7 @@ export default function Home() {
             />
             
             <button
-              className="w-24 h-12 bg-emerald text-white rounded-lg ml-2 bg-yellow text-white"
+              className="w-24 h-12 bg-emerald text-white rounded-lg ml-2 bg-yellow text-white hover:bg-red hover:text-black"
             >
               Send
             </button>
