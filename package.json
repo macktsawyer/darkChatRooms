@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/dotenv": "^6.1.1",
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.1",
     "autoprefixer": "^10.4.20",

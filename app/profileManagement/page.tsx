@@ -11,6 +11,7 @@ export default function ProfileManagement () {
     const [loading, setLoading] = useState(false);
     const [isFailure, setIsFailure] = useState(false);
     const [message, setMessage] = useState('');
+    const [labelIsHidden, setLabelIsHidden] = useState(true);
     const inputRef = useRef(null);
     const { data: session } = useSession();
 
@@ -18,6 +19,10 @@ export default function ProfileManagement () {
 
     const updateUserColorPref = (e: string) => {
         console.log(e)
+        setLabelIsHidden(!labelIsHidden);
+        // Function to make an API call to change the database record of default color.
+
+        // Remove the label and learn how to change session, or keep the label and force a logout...
     }
 
     return (
@@ -27,7 +32,7 @@ export default function ProfileManagement () {
                 <li className={"text-indigo"}><span className={"text-teal"}>Email: </span>{session?.user?.email}</li>
                 <li className={"text-indigo"}><span className={"text-teal"}>Default Message Color: </span>
                     <select 
-                        defaultValue={session?.user?.defaultMessageColor || "slate"}
+                        value={session?.user?.defaultMessageColor || "slate"}
                         onChange={(e) => {updateUserColorPref(e.target.value)}}
                         style={{ height: "14px", lineHeight: "1", }} 
                         className={
@@ -52,6 +57,7 @@ export default function ProfileManagement () {
                         <option value="pink" style={{backgroundColor: "#db2777", color: "white"}}> </option>
                         <option value="rose" style={{backgroundColor: "#e11d48", color: "white"}}> </option>
                     </select>
+                    {!labelIsHidden && <label> - You'll need to logout and log back in for the default color to update correctly.</label>}
                 </li>
             </ul>
         </div>
