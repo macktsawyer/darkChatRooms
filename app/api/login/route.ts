@@ -3,39 +3,48 @@ import { connectToDatabase } from '../../../utils/mongodb';
 import User from "../../../models/User.js";
 import bcrypt from 'bcryptjs';
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
+        // Connect to the database
         await connectToDatabase();
+
+        // Parse the request body
         const body = await req.json();
+        const { username, password }: { username: string; password: string } = body;
 
-        const { username, password } : { username: string; password: string; } = body;
-
-        const query = User.where({username: username})
-
-        const user = await query.findOne();
+        // Search for the user
+        const user = await User.findOne({ username });
 
         if (user) {
-            const check = await bcrypt.compare(password, user.password);
-            if (check) {
+            // Compare the password
+            const isPasswordCorrect = await bcrypt.compare(password, user.password);
+            if (isPasswordCorrect) {
                 console.log('Logging in...successful!');
                 return NextResponse.json({ user });
-            };
+            } else {
+                console.log('Invalid password');
+                return NextResponse.json(
+                    { message: "Invalid credentials" },
+                    { status: 401 }
+                );
+            }
         } else {
-            console.log('ErrCode 1005: Error with the login response from MongoDB');
-            return NextResponse.json({
-                message: "ErrCode 1005",
-                status: 500
-            });
+            console.log('User not found');
+            return NextResponse.json(
+                { message: "User not found" },
+                { status: 404 }
+            );
         }
     } catch (error) {
         console.log(error);
-        return NextResponse.json({
-            message: "Error " + error,
-            status: 500
-        })
+        return NextResponse.json(
+            { message: `Error: ${error.message}` },
+            { status: 500 }
+        );
     }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
-    console.log('No GET function')
+export async function GET(req: NextRequest) {
+    console.log('GET method not supported');
+    return NextResponse.json({ message: "GET method not supported" });
 }
