@@ -1,19 +1,9 @@
-import NextAuth, { AuthOptions, Session, User, JWT } from "next-auth";
+import NextAuth, { NextAuthOptions, Session, User, JWT } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // Extending the default Session type to support custom fields
-interface CustomUser {
+interface CustomUser extends User {
   id: string;
-  name: string;
-  email: string;
-  creationDate: string;
-  defaultMessageColor: string;
-}
-
-interface CustomJWT extends JWT {
-  id: string;
-  name: string;
-  email: string;
   creationDate: string;
   defaultMessageColor: string;
 }
@@ -23,7 +13,7 @@ interface CustomSession extends Session {
   user: CustomUser;
 }
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -40,24 +30,20 @@ export const authOptions: AuthOptions = {
         });
 
         if (!response.ok) {
-          return null; // Invalid credentials
+          return null;
         }
 
         const user = await response.json();
-        console.log(user.user); // This is fine for debugging
-
         if (user.user && user.user.id) {
-          // Returning the object with `name` instead of `username` as per CustomUser
           return {
             id: user.user.id,
-            name: user.user.username, // Assuming `username` is intended to be `name`
+            name: user.user.username,
             email: user.user.email,
             creationDate: user.user.creationDate,
             defaultMessageColor: user.user.defaultMessageColor,
           };
         }
-
-        return null; // Invalid credentials
+        return null;
       },
     }),
   ],
@@ -65,39 +51,33 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  expiresIn:'1h',
   debug: true,
   pages: {
-    signIn: "/", 
-    signOut: "/"
+    signIn: "/",
+    signOut: "/",
   },
   callbacks: {
-    async jwt({ token, user }: { token: CustomJWT; user?: CustomUser }) {
+    async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.creationDate = user.creationDate;
-        token.defaultMessageColor = user.defaultMessageColor;
+        token.creationDate = (user as CustomUser).creationDate;
+        token.defaultMessageColor = (user as CustomUser).defaultMessageColor;
       }
       return token;
     },
 
-    // Adjusted session callback to match the expected type
-    async session({ session, token }: { session: CustomSession; token: CustomJWT }) {
-      if (token) {
-        // Ensure the custom fields are added to the session.user
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.creationDate = token.creationDate;
-        session.user.defaultMessageColor = token.defaultMessageColor;
-      }
+    async session({ session, token }) {
+      session.user.id = token.id as string;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.creationDate = token.creationDate as string;
+      session.user.defaultMessageColor = token.defaultMessageColor as string;
       return session;
     },
   },
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

@@ -11,7 +11,7 @@ const port = 3000;
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
-require('dotenv').config();
+import "dotenv/config";
 
 mongoose.connect(process.env.MONGODB_URI, { 
   useNewUrlParser: true, 
