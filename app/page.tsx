@@ -39,7 +39,7 @@ export default function Home() {
   const inputRef = useRef(null);
   const { data: session, status } = useSession();
 
-  if (!session) redirect('/login');
+  if (status === 'unauthenticated') redirect('/login');
 
   const filterChatMessages = (msg: string) => {
 
@@ -208,10 +208,12 @@ export default function Home() {
   },[chatMessages])
 
   useEffect(()=> {
-    updateUserName(session.user.name);
-    updateUserID(session.user.id);
-    updateMessageColor(session.user.defaultMessageColor);
-  },[session.user])
+    if (status === 'authenticated') {
+      updateUserName(session.user.name);
+      updateUserID(session.user.id);
+      updateMessageColor(session.user.defaultMessageColor);
+    }
+  },[status])
 
 // I had to make the non-messageColor default bg-white because classNames didn't like that they ended up with same value (for bg-black)
 // Overall form container. I would like to put this in it's own component at some point.
