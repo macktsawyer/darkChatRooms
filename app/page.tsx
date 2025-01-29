@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, FormEvent } from "react";
-import { authOptions } from './api/auth/[...nextauth]/route';
+
 import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import classNames from 'classnames';
